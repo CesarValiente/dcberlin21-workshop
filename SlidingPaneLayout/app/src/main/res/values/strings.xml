@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">SlidingPaneLayout</string>
+    <string name="body_text_suffix">and we are now in the detail view where we could display more content</string>
+</resources>
