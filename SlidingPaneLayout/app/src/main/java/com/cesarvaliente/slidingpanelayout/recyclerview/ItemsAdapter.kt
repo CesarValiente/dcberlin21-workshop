@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ItemsAdapter(
     private val items: Array<Item>,
-    private val onClick: () -> Unit,
     private val sharedVM: SharedVM
 ) : RecyclerView.Adapter<ItemViewHolder>() {
 
@@ -15,7 +14,7 @@ class ItemsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
-        return ItemViewHolder(view, onClick, sharedVM)
+        return ItemViewHolder(view, sharedVM)
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
@@ -26,7 +25,6 @@ class ItemsAdapter(
             layout.setOnClickListener {
                 selectedItemPosition = position
                 sharedVM.setSelectedItem(item)
-                onClick()
                 notifyDataSetChanged()
             }
             changeItemBackground(position, selectedItemPosition, layout)
@@ -43,5 +41,7 @@ class ItemsAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    fun getItem(position: Int): Item = items[position]
+    fun unSelectItem() {
+        selectedItemPosition = -1
+    }
 }

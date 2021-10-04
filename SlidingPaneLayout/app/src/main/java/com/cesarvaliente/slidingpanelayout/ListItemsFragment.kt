@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.cesarvaliente.slidingpanelayout.databinding.ListItemsLayoutBinding
 
 class ListItemsFragment() : Fragment() {
-
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var binding: ListItemsLayoutBinding
     private lateinit var myAdapter: ItemsAdapter
     private lateinit var myViewManager: RecyclerView.LayoutManager
 
@@ -35,24 +35,15 @@ class ListItemsFragment() : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.list_items_layout, container, false)
+        binding = ListItemsLayoutBinding.inflate(inflater, container, false)
 
-        myAdapter = ItemsAdapter(dataset, ::onItemClickListener, sharedVM)
+        myAdapter = ItemsAdapter(dataset, sharedVM)
         myViewManager = LinearLayoutManager(requireContext())
-        recyclerView = view.findViewById<RecyclerView>(R.id.list_items).apply {
+        binding.listItems.apply {
             setHasFixedSize(true)
             layoutManager = myViewManager
             adapter = myAdapter
         }
-        return view
-    }
-
-    private fun onItemClickListener() {
-        activity?.run {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, DetailFragment())
-                .addToBackStack("detailFragment")
-                .commit()
-        }
+        return binding.root
     }
 }
