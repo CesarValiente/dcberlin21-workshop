@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list_items"
     android:layout_width="match_parent"
+    android:background="@drawable/item_ripple"
     android:layout_height="match_parent"
     tools:listitem="@layout/list_item">
 

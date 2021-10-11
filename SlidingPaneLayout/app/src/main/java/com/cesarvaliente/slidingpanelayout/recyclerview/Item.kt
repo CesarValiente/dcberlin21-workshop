@@ -1,3 +1,3 @@
-package com.cesarvaliente.slidingpanelayout
+package com.cesarvaliente.slidingpanelayout.recyclerview
 
-data class Item(val number: Int, val body: String)
+data class Item(val number: Int, val mailTitle: String)
