@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_container"
+<androidx.slidingpanelayout.widget.SlidingPaneLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sliding_pane_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
+
+    <!-- The first child view becomes the left pane. When the combined
+    desired width (expressed using android:layout_width) would
+    not fit on-screen at once, the right pane is permitted to
+    overlap the left. -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container"
+        android:name="com.cesarvaliente.slidingpanelayout.ListItemsFragment"
+        android:layout_width="280dp"
+        android:layout_height="match_parent" />
+
+    <!-- The second child becomes the right (content) pane. In this
+    example, android:layout_weight is used to expand this detail pane
+    to consume leftover available space when the entire window is wide enough to fit both the left and right pane.-->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/detail_container"
+        android:name="com.cesarvaliente.slidingpanelayout.DetailFragment"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+
+</androidx.slidingpanelayout.widget.SlidingPaneLayout>

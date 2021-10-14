@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">SlidingPaneLayout</string>
     <string name="body_text_suffix">and we are now in the detail view where we could display more content</string>
+    <string name="mail_title">Mail Title</string>
+    <string name="no_details_text">Select an email from the list \n to check its details.</string>
 </resources>

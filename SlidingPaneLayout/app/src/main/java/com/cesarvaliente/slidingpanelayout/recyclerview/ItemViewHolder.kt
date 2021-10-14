@@ -1,14 +1,14 @@
-package com.cesarvaliente.slidingpanelayout
+package com.cesarvaliente.slidingpanelayout.recyclerview
 
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.cesarvaliente.slidingpanelayout.R
+import com.cesarvaliente.slidingpanelayout.SharedVM
 
-class ItemViewHolder(val view: View, val onClick: () -> Unit, val sharedVM: SharedVM) :
+class ItemViewHolder(view: View, val sharedVM: SharedVM) :
     RecyclerView.ViewHolder(view) {
-    val layout: LinearLayout = itemView.findViewById(R.id.item_layout)
-    val numberView: TextView = itemView.findViewById(R.id.item_number)
-    val bodyView: TextView = itemView.findViewById(R.id.item_body)
-
+    val layout: ConstraintLayout = itemView.findViewById(R.id.item_layout)
+    val mailItemNumber: TextView = itemView.findViewById(R.id.mail_item_number)
 }

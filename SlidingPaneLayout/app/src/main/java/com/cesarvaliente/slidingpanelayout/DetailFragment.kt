@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
+import com.cesarvaliente.slidingpanelayout.databinding.DetailLayoutBinding
 
 class DetailFragment : Fragment() {
     private val sharedVM: SharedVM by activityViewModels()
@@ -16,15 +15,16 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.detail_layout, container, false)
+    ): View {
+        val binding = DetailLayoutBinding.inflate(inflater, container, false)
 
-        sharedVM.selectedItem.observe(viewLifecycleOwner, Observer<Item> {
-            view.findViewById<TextView>(R.id.detail_number).text = it.number.toString()
-            view.findViewById<TextView>(R.id.detail_body).text =
-                it.body + " " + getString(R.string.body_text_suffix)
+        sharedVM.selectedItem.observe(viewLifecycleOwner, { selectedItem ->
+            selectedItem?.let {
+                binding.scrollView.visibility = View.VISIBLE
+                binding.mailTitle.text = it.mailTitle
+            }
         })
 
-        return view
+        return binding.root
     }
 }
