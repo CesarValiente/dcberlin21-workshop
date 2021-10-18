@@ -1,17 +1,34 @@
 package com.cesarvaliente.navigationrail
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.window.layout.FoldingFeature
+import androidx.window.layout.WindowInfoRepository
+import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
+import androidx.window.layout.WindowLayoutInfo
 import com.cesarvaliente.navigationrail.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigationrail.NavigationRailView
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var windowInfoRepo: WindowInfoRepository
+    private val scope = MainScope()
+
+    private lateinit var bottomNavView: BottomNavigationView
+    private lateinit var navRailView: NavigationRailView
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,9 +36,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navView: BottomNavigationView = binding.navView
+        windowInfoRepo = windowInfoRepository()
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        //Bind components
+        bottomNavView = binding.bottomNavView
+        navRailView = binding.navigationRail
+        navController = findNavController(R.id.nav_host_fragment_activity_main)
+
+        setupNavigation()
+        adjustUI()
+    }
+
+    private fun setupNavigation() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
@@ -30,6 +56,35 @@ class MainActivity : AppCompatActivity() {
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+    }
+
+    private fun adjustUI() {
+        scope.launch {
+            windowInfoRepo.windowLayoutInfo
+                .collect { value ->
+                    showUI(value)
+                }
+        }
+    }
+
+    private fun showUI(windowLayoutInfo: WindowLayoutInfo) {
+        if (windowLayoutInfo.displayFeatures.isEmpty()) {
+            bottomNavView.setupWithNavController(navController)
+            bottomNavView.visibility = View.VISIBLE
+            navRailView.visibility = View.GONE
+        } else {
+            (windowLayoutInfo.displayFeatures.component1() as? FoldingFeature)?.apply {
+                if (isSeparating) {
+                    navRailView.setupWithNavController(navController)
+                    navRailView.visibility = View.VISIBLE
+                    bottomNavView.visibility = View.GONE
+                }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.cancel()
     }
 }
