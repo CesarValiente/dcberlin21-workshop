@@ -5,7 +5,6 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import com.cesarvaliente.slidingpanelayout.databinding.ActivityMainBinding
 
@@ -23,7 +22,7 @@ class MainActivity : AppCompatActivity() {
             OnSlidingPaneLayoutBackPressedCallback(binding.slidingPaneLayout)
         )
 
-        sharedVM.selectedItem.observe(this, Observer {
+        sharedVM.selectedItem.observe(this, {
             if (!binding.slidingPaneLayout.isOpen) {
                 binding.slidingPaneLayout.openPane()
             }
@@ -45,9 +44,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onPanelSlide(panel: View, slideOffset: Float) {
-            if (slideOffset > 0) {
-
-            }
         }
 
         override fun onPanelOpened(panel: View) {

@@ -10,7 +10,7 @@
     not fit on-screen at once, the right pane is permitted to
     overlap the left. -->
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_container"
+        android:id="@+id/list_container"
         android:name="com.cesarvaliente.slidingpanelayout.ListItemsFragment"
         android:layout_width="280dp"
         android:layout_height="match_parent" />
