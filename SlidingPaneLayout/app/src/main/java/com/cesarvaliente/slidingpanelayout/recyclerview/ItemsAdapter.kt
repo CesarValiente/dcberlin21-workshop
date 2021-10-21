@@ -14,11 +14,7 @@ class ItemsAdapter(
 
     private var selectedItemPosition = -1
 
-    init {
-        sharedVM.selectedItem.value?.let {
-            updateSelectItem(it)
-        }
-    }
+    // TODO: Init selectedItem
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
@@ -51,8 +47,5 @@ class ItemsAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    private fun updateSelectItem(selectedItem: Item) {
-        this.selectedItemPosition = items.indexOf(selectedItem)
-        notifyItemChanged(selectedItemPosition)
-    }
+    // TODO: create updateSelectItem function
 }

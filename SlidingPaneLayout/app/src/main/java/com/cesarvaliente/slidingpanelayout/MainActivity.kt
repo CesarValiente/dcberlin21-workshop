@@ -17,42 +17,20 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        onBackPressedDispatcher.addCallback(
-            this,
-            OnSlidingPaneLayoutBackPressedCallback(binding.slidingPaneLayout)
-        )
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, ListItemsFragment())
+            .commit()
+
+        // TODO: addCallback for onBackPressed
 
         sharedVM.selectedItem.observe(this, {
-            if (!binding.slidingPaneLayout.isOpen) {
-                binding.slidingPaneLayout.openPane()
-            }
+            // TODO: Change Fragments
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, DetailFragment())
+                .addToBackStack(null)
+                .commit()
         })
     }
 
-    inner class OnSlidingPaneLayoutBackPressedCallback(
-        private val slidingPaneLayout: SlidingPaneLayout
-    ) : OnBackPressedCallback(
-        slidingPaneLayout.isSlideable && slidingPaneLayout.isOpen
-    ), SlidingPaneLayout.PanelSlideListener {
-
-        init {
-            slidingPaneLayout.addPanelSlideListener(this)
-        }
-
-        override fun handleOnBackPressed() {
-            slidingPaneLayout.closePane()
-        }
-
-        override fun onPanelSlide(panel: View, slideOffset: Float) {
-        }
-
-        override fun onPanelOpened(panel: View) {
-            isEnabled = true
-        }
-
-        override fun onPanelClosed(panel: View) {
-            isEnabled = false
-
-        }
-    }
+    // TODO: Handle SlidingPaneLayout onBackPressed
 }
